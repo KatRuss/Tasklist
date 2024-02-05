@@ -109,3 +109,4 @@ def caeser_decrypt(text: str, key: list):
     return new_text
     # TODO: Find out what is causing the problem where passwords
     # are sometimes being decrypted with one letter wrong.
+    # Possibly just rewrite this whole encryption system.
