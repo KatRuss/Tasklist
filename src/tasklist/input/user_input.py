@@ -38,6 +38,16 @@ def print_question_and_response(
     return input("> ".rjust(6))
 
 
+def check_regex(response: str, validation: str = "") -> bool:
+    """General Regex checker for typed inputs"""
+    for char in response:
+        print(char)
+        if re.match(validation, char):
+            print(get_error(f"Response includes illegal character '{char}'"))
+            return False
+    return True  # Nothing illegal was found
+
+
 def typed_input(question: str = "", validation: str = ""):
     """Get a written input from the user that is returned as a string.
     Useful for things such as typing in passwords or creating names for
@@ -57,17 +67,15 @@ def typed_input(question: str = "", validation: str = ""):
     if answer.strip() != "":
         # Validation
         if validation != "":
-            for char in answer:
-                if re.match(validation, char):
-                    # Validation catches illegal character
-                    get_error(f"Response includes illegal character '{char}'")
-                    return typed_input(question)
-            return answer  # nothing illegal was found
+            if check_regex(answer, validation):
+                return answer
+            return typed_input(question, validation)  # Validation Failed
+
         return answer  # validation skipped
 
     # User inputted nothing
     print("Please write a value.")
-    return typed_input(question)
+    return typed_input(question, validation)
 
 
 def binary_choice_input(

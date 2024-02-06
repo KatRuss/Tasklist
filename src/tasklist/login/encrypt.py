@@ -8,7 +8,7 @@ caeser cypher to get the point across of these passwords being encrpyted when be
 import random
 import math
 
-stringset = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789' ")
+stringset = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789': ")
 
 
 def generate_key(string_length: int) -> list:
