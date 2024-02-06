@@ -1,3 +1,6 @@
+"""_summary_"""
+
+import sys
 from dataclasses import dataclass
 from src.tasklist.systems.task_system import create_new_task
 from src.tasklist.input.user_input import wait, list_choice_input
@@ -10,6 +13,11 @@ class ScreenAction:
         return self.name
 
     def do(self):
+        """Abstract function for initiating a ScreenAction
+
+        Returns False if action is not expected to close the screen.
+        Returns True if screen should close after action.
+        """
         return False
 
 
@@ -17,15 +25,7 @@ class QuitAppAction(ScreenAction):
     name = "Quit"
 
     def do(self):
-        quit()
-
-
-class TestAction(ScreenAction):
-    name = "Say hi"
-
-    def do(self):
-        print("Hello!")
-        return False
+        sys.exit()
 
 
 class ReturnAction(ScreenAction):
@@ -46,7 +46,7 @@ class MoveScreenAction(ScreenAction):
 
 
 class ViewUserTaskListAction(ScreenAction):
-    pass
+    pass  # To Be Implemented
 
 
 @dataclass
