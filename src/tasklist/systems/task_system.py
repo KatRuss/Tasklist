@@ -4,9 +4,20 @@ from src.tasklist.input.user_input import (
     binary_choice_input,
 )
 from src.data.datalists import task_list
-from src.tasklist.objects.task import Task
+from src.tasklist.objects.task import Task,UpdateInfo
 import yaml
 
+
+def get_task_from_yaml(item: dict) -> Task:
+    return Task(
+                name=item["title"],
+                priority=item["priority"],
+                description=item["description"],
+                to_do=item["todo"],
+                completed=item["completed"],
+                completion_date = item["completed-date"],
+                creator=UpdateInfo(item["creator"],item["created-date"])
+            )
 
 def read_tasks_from_yaml(yamlData: str):
     """_summary_
@@ -18,18 +29,7 @@ def read_tasks_from_yaml(yamlData: str):
     data = yaml.safe_load(stream)
 
     for item in data:
-        task_list.append(
-            Task(
-                name=item["title"],
-                priority=item["priority"],
-                description=item["description"],
-                to_do=item["todo"],
-                completed=item["completed"],
-                completion_date=item["completed-date"],
-                creator=item["creator"],
-                creation_date=item["created-date"],
-            )
-        )
+        task_list.append(get_task_from_yaml(item))
 
     stream.close()
 
@@ -51,9 +51,9 @@ def write_task_to_yaml(yamlFile: str, taskObject: Task):
     for task in taskObject.to_do:
         stream.write(f'    - "{task}" \n')
     stream.write(f"  completed: {taskObject.completed} \n")
-    stream.write(f'  completed-date: "{taskObject.completionDate}" \n')
-    stream.write(f'  creator: "{taskObject.creator}" \n')
-    stream.write(f'  created-date: "{taskObject.creation_date}" \n')
+    stream.write(f'  completed-date: "{taskObject.completion_date}" \n')
+    stream.write(f'  creator: "{taskObject.creator.user}" \n')
+    stream.write(f'  created-date: "{taskObject.creator.creation_date}" \n')
 
     stream.close()
 

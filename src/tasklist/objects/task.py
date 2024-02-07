@@ -20,7 +20,7 @@ class Task:
     to_do: List[str] = field(default_factory=list)
     assigned_users: List[User] = field(default_factory=list)
     creator: UpdateInfo = None
-    completion_info: UpdateInfo = None
+    completion_date: str = None
     completed: bool = False
 
     def __str__(self) -> str:

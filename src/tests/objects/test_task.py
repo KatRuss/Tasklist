@@ -14,7 +14,7 @@ test_task = Task(
     to_do=["Plan the App", "Make the App", "Test the App"],
     assigned_users=[test_user],
     creator=UpdateInfo(user=test_user, creation_date=datetime.datetime.now()),
-    completion_info=UpdateInfo(user=test_user, creation_date=datetime.datetime.now()),
+    completion_date = datetime.datetime.now(),
     completed=True,
 )
 
