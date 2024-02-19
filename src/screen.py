@@ -169,11 +169,13 @@ class AssignTaskToUser(ScreenAction):
         usr = u_input.list_choice_input(
             "Which user would you like to assign", self.user_list
         )
+
         tsk = u_input.list_choice_input(
             f"Which task would you like to assign {usr.username} to?", self.task_list
         )
         tsk.assigned_users.append(usr)
         print(f"{usr.username} has been set to {tsk.name}!")
+
         return False
 
 
