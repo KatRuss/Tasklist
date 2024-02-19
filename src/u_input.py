@@ -2,7 +2,7 @@
 
 from enum import Enum
 import re
-from formatting.text_format import get_question, get_error
+import t_format
 
 
 class DefaultInputs(Enum):
@@ -34,7 +34,7 @@ def print_question_and_response(
         if positive is not None and negative is not None
         else ""
     )
-    get_question(question_txt)
+    print(t_format.get_question(question_txt))
     return input("> ".rjust(6))
 
 
@@ -43,7 +43,7 @@ def check_regex(response: str, validation: str = "") -> bool:
     for char in response:
         print(char)
         if re.match(validation, char):
-            print(get_error(f"Response includes illegal character '{char}'"))
+            print(t_format.get_error(f"Response includes illegal character '{char}'"))
             return False
     return True  # Nothing illegal was found
 
