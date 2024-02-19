@@ -80,6 +80,7 @@ class QuitAppAction(ScreenAction):
     name = "Quit"
 
     def do(self):
+        task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.task_list)
         sys.exit()
 
 
@@ -149,21 +150,53 @@ class AddTaskAction(ScreenAction):
         return False
 
 
-class assign_task_to_user(ScreenAction):
+class AssignTaskToUser(ScreenAction):
     name = "Assign Task to User"
     pass  # To be implemented
 
 
-class see_users(ScreenAction):
+class RemoveAssignedUser(ScreenAction):
+    name = "Remove User From Task"
+
+
+@dataclass
+class SeeUsers(ScreenAction):
     name = "See All Users"
+    user_list: list
 
-    pass  # to be implmenented
+    def do(self):
+        if len(self.user_list) != 0:
+            print("Here all all of the users in this tasklist:")
+            for x, usr in enumerate(self.user_list):
+                print(f"{x+1}. {usr.full_name}")
+            u_input.wait()
+            return False
+
+        print(t_format.get_error("There are no tasks to look at!"))
+        u_input.wait()
+        return False
 
 
-class complete_task(ScreenAction):
+@dataclass
+class CompleteTask(ScreenAction):
     name = "Complete Task"
 
-    pass  # to be implemented
+    tasklist: list
+
+    def do(self):
+        if len(self.tasklist) != 0:
+            choice = u_input.list_choice_input(
+                "Which task would you like to complete?", self.tasklist
+            )
+            choice.complete_task()
+            print(f"{choice} has been set to completed")
+            task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.task_list)
+            u_input.wait()
+            return False
+
+        print(t_format.get_error("There are no tasks to look at!"))
+        u_input.wait()
+        return False
 
 
 class admin_clear_tasklist(ScreenAction):
@@ -188,6 +221,7 @@ currentTasksScreen = Screen(
     options_list=[
         ViewTaskListAction(t_consts.task_list),
         ViewTaskAction(t_consts.task_list),
+        CompleteTask(t_consts.task_list),
         AddTaskAction(),
     ],
 )
@@ -203,5 +237,9 @@ entryScreen = Screen(
     title="Main Screen",
     intro_message="Welcome to Tasklist",
     exit_function=QuitAppAction(),
-    options_list=[MoveScreenAction(currentTasksScreen), MoveScreenAction(adminScreen)],
+    options_list=[
+        MoveScreenAction(currentTasksScreen),
+        MoveScreenAction(adminScreen),
+        SeeUsers(t_consts.user_list),
+    ],
 )
