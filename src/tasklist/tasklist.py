@@ -1,6 +1,6 @@
 """
 -- TASKLIST.PY --
-Entrypoint for the program. Takes in user login data and 
+Entrypoint for the program. Takes in user login data and
 passes it to the login system to interpret and log the user in.
 
 Linearly it should go:
@@ -10,10 +10,11 @@ Linearly it should go:
 """
 
 import argparse
-import src.tasklist.login.login_system as login_system
-from src.data.screens import entryScreen
-from src.tasklist.systems.task_system import read_tasks_from_yaml
-from src.tasklist.systems.user_system import read_users_from_yaml
+from pathlib import Path
+
+import objects.screen as screens
+import systems.task_system as tasks
+import systems.user_system as users
 
 parser = argparse.ArgumentParser(
     prog="tasklist",
@@ -23,20 +24,26 @@ parser.add_argument("-n", "--new", dest="newUser", action="store_true")
 args = parser.parse_args()
 
 # Setup
+
+# Get working directory and data paths
+CWD = Path.cwd()
+DATA_PATH = CWD.joinpath("src/tasklist/data")
+
+# Load Tasks and Users
 if args.newUser is False:
-    read_users_from_yaml("users.yaml")
-read_tasks_from_yaml("tasks.yaml")
+    users.read_users_from_yaml(DATA_PATH.joinpath("users.yaml"))
+tasks.read_tasks_from_yaml(DATA_PATH.joinpath("tasks.yaml"))
 
 # Login Check
 if args.newUser is True:
-    login_system.create_new_user()
-    entryScreen.show()
+    users.create_new_user()
+    screens.entryScreen.show()
 else:
-    if login_system.validate_user() is False:
+    if users.validate_user() is False:
         # User has been validated, pass to main screen
         print("Login Success")
         # Send to main screen
-        entryScreen.show()
+        screens.entryScreen.show()
     else:
         # User not valid
         print("Login Fail")

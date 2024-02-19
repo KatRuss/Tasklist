@@ -2,7 +2,7 @@
 
 from enum import Enum
 import re
-from src.tasklist.formatting.text_format import get_question, get_error
+from formatting.text_format import get_question, get_error
 
 
 class DefaultInputs(Enum):

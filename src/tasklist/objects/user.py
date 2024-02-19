@@ -1,12 +1,6 @@
 """_summary_"""
 
-from src.tasklist.login.encrypt import (
-    caeser_decrypt,
-    caeser_encrypt,
-    get_key_from_string,
-    get_key_string,
-    generate_key,
-)
+import tasklist.systems.encrypt_system as encrypt
 
 
 class User:
@@ -32,9 +26,9 @@ class User:
 
     def set_password(self, password):
         """_summary_"""
-        self.pass_key: str = get_key_string(generate_key(len(password)))
-        self.password: str = caeser_encrypt(
-            password, get_key_from_string(self.pass_key)
+        self.pass_key: str = encrypt.get_key_string(encrypt.generate_key(len(password)))
+        self.password: str = encrypt.caeser_encrypt(
+            password, encrypt.get_key_from_string(self.pass_key)
         )
 
     def get_name(self):

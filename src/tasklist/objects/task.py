@@ -1,12 +1,12 @@
 import datetime
 from typing import List
 from dataclasses import dataclass, field
-from src.tasklist.objects.user import User
+import objects.user as users
 
 
 @dataclass
 class UpdateInfo:
-    user: User = None
+    user: users.User = None
     creation_date: str = ""
 
 
@@ -18,7 +18,7 @@ class Task:
     priority: str = "?"
     description: str = None
     to_do: List[str] = field(default_factory=list)
-    assigned_users: List[User] = field(default_factory=list)
+    assigned_users: List[users.User] = field(default_factory=list)
     creator: UpdateInfo = None
     completion_date: str = None
     completed: bool = False
@@ -26,9 +26,9 @@ class Task:
     def __str__(self) -> str:
         return f"{self.name} ({self.priority if self.completed is not False else 'Completed'})"
 
-    def complete_task(self, user: User):
+    def complete_task(self):
         self.completed = True
-        self.completion_info = UpdateInfo(user, datetime.datetime.now())
+        self.completion_date = datetime.datetime.now()
 
     def print_task_details(self) -> bool:
         header = f"=== {self.name}"

@@ -1,12 +1,9 @@
-"""
--- LOGIN_SYSTEM.py --
-handles taking in user login data and validating the information. Allowing the user to login.
-"""
+"""Handles the login and creations of users"""
 
-from src.tasklist.input.user_input import binary_choice_input, typed_input
-from src.tasklist.objects.user import User
-from src.data.datalists import user_list
-from src.tasklist.systems.user_system import write_user_to_yaml
+import sys
+import objects.user as users
+import data.datalists as data_lists
+import input.user_input as u_input
 
 
 def create_new_user() -> None:
@@ -15,38 +12,40 @@ def create_new_user() -> None:
     Args:
         username (str): _description_
     """
-    if binary_choice_input("Would you like to create a new profile?") is True:
+    if u_input.binary_choice_input("Would you like to create a new profile?") is True:
 
         # Get Username
-        username = typed_input("New Username", r"([.\[\]'<>!*@\/\\`,\"\';:#~{}=+_|?/])")
+        username = u_input.typed_input(
+            "New Username", r"([.\[\]'<>!*@\/\\`,\"\';:#~{}=+_|?/])"
+        )
         # Get Password
-        password = typed_input("New Password")
+        password = u_input.typed_input("New Password")
         # Get real name
-        name = typed_input(
+        name = u_input.typed_input(
             "Please write your full name", r"([0-9.\[\]'<>!*@\/\\`,\"\';:#~{}=+_|?/])"
         )
 
-        for user in user_list:
+        for user in data_lists.user_list:
             if username == user.username:
                 print(f"Username {username} already exists")
                 return False
 
-        new_user = User(full_name=name, username=username, password=password)
-        write_user_to_yaml("users.yaml", new_user)
+        new_user = users.User(full_name=name, username=username, password=password)
+        users.write_user_to_yaml("users.yaml", new_user)
         return new_user
 
-    exit()  # New user not created
+    return sys.exit()  # New user not created
 
 
-def validate_user() -> User:
+def validate_user():
     """Checks if user credentials are correct and retuns user data."""
 
     # Get Username
-    username = typed_input("Username", r"([.\[\]'<>!*@\/\\`,\"\';:#~{}=+_|?/])")
+    username = u_input.typed_input("Username", r"([.\[\]'<>!*@\/\\`,\"\';:#~{}=+_|?/])")
     # Get Password
-    password = typed_input("Password:")
+    password = u_input.typed_input("Password:")
 
-    for user in user_list:
+    for user in users.user_list:
         if username == user.username:
             # User has been found, check for for password
             print(user.get_password())

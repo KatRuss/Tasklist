@@ -2,8 +2,9 @@
 
 import sys
 from dataclasses import dataclass
-from src.tasklist.systems.task_system import create_new_task
-from src.tasklist.input.user_input import wait, list_choice_input
+
+import systems.task_system as tasks
+import input.user_input as u_input
 
 
 class ScreenAction:
@@ -58,7 +59,7 @@ class ViewTaskListAction(ScreenAction):
         print("Here are all of the tasks that exist: ")
         for x, task in enumerate(self.tasklist):
             print(f"  {x+1}. {task.name}")
-        wait()
+        u_input.wait()
         return False
 
 
@@ -68,9 +69,11 @@ class ViewTaskAction(ScreenAction):
     tasklist: list
 
     def do(self):
-        choice = list_choice_input("Which task would you like to view?", self.tasklist)
+        choice = u_input.list_choice_input(
+            "Which task would you like to view?", self.tasklist
+        )
         choice.printTaskDetails()
-        wait()
+        u_input.wait()
         return False
 
 
@@ -78,5 +81,5 @@ class AddTaskAction(ScreenAction):
     name = "Add Task"
 
     def do(self):
-        create_new_task()
+        tasks.create_new_task()
         return False
