@@ -150,9 +150,31 @@ class AddTaskAction(ScreenAction):
         return False
 
 
+@dataclass
 class AssignTaskToUser(ScreenAction):
     name = "Assign Task to User"
-    pass  # To be implemented
+    user_list: list
+    task_list: list
+
+    def do(self):
+        if len(self.user_list) == 0:
+            print(t_format.get_error("No users detected on this instance"))
+            u_input.wait()
+            return False
+        if len(self.user_list) == 0:
+            print(t_format.get_error("No users detected on this instance"))
+            u_input.wait()
+
+        # get task
+        usr = u_input.list_choice_input(
+            "Which user would you like to assign", self.user_list
+        )
+        task = u_input.list_choice_input(
+            f"Which task would you like to assign {usr.username} to?", self.task_list
+        )
+        task.assigned_users.append(usr)
+        print(f"{usr.username} has been set to {task.name}!")
+        return False
 
 
 class RemoveAssignedUser(ScreenAction):
@@ -222,6 +244,7 @@ currentTasksScreen = Screen(
         ViewTaskListAction(t_consts.task_list),
         ViewTaskAction(t_consts.task_list),
         CompleteTask(t_consts.task_list),
+        AssignTaskToUser(t_consts.user_list, t_consts.task_list),
         AddTaskAction(),
     ],
 )
