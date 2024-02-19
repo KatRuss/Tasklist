@@ -1,4 +1,4 @@
-from src.tasklist.input.user_input import (
+from src.tasklist.u_input.user_input import (
     typed_input,
     wait,
     print_question_and_response,

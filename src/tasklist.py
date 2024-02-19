@@ -12,9 +12,9 @@ Linearly it should go:
 import argparse
 from pathlib import Path
 
-import objects.screen as screens
-import systems.task_system as tasks
-import systems.user_system as users
+import screen
+import task
+import user
 
 parser = argparse.ArgumentParser(
     prog="tasklist",
@@ -24,26 +24,25 @@ parser.add_argument("-n", "--new", dest="newUser", action="store_true")
 args = parser.parse_args()
 
 # Setup
-
 # Get working directory and data paths
 CWD = Path.cwd()
-DATA_PATH = CWD.joinpath("src/tasklist/data")
+DATA_PATH = CWD.joinpath("data")
 
 # Load Tasks and Users
 if args.newUser is False:
-    users.read_users_from_yaml(DATA_PATH.joinpath("users.yaml"))
-tasks.read_tasks_from_yaml(DATA_PATH.joinpath("tasks.yaml"))
+    user.read_users_from_yaml(DATA_PATH.joinpath("users.yaml"))
+task.read_tasks_from_yaml(DATA_PATH.joinpath("tasks.yaml"))
 
 # Login Check
 if args.newUser is True:
-    users.create_new_user()
-    screens.entryScreen.show()
+    user.create_new_user()
+    screen.entryScreen.show()
 else:
-    if users.validate_user() is False:
+    if user.validate_user() is not False:
         # User has been validated, pass to main screen
         print("Login Success")
         # Send to main screen
-        screens.entryScreen.show()
+        screen.entryScreen.show()
     else:
         # User not valid
         print("Login Fail")
