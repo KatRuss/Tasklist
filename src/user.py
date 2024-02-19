@@ -9,7 +9,7 @@ import yaml
 import encrypt
 import t_consts
 import u_input
-import t_consts
+import t_format
 
 
 class User:
@@ -134,6 +134,15 @@ def create_new_user() -> None:
 def validate_user():
     """Checks if user credentials are correct and retuns user data."""
 
+    if len(t_consts.user_list) == 0:
+        print(
+            t_format.get_error(
+                """There are no users inside this tasklist instance.
+                To create the first user. Please include '-n' in your console command"""
+            )
+        )
+        sys.exit()
+
     # Get Username
     username = u_input.typed_input("Username", r"([.\[\]'<>!*@\/\\`,\"\';:#~{}=+_|?/])")
     # Get Password
@@ -153,8 +162,10 @@ def validate_user():
             return False
 
     print(
-        f"""User '{username}' was not found.
-        If you are trying to create a new profile,
-        Make sure to include '-n' in your console command"""
+        t_format.get_error(
+            f"""User '{username}' was not found.
+            If you are trying to create a new profile,
+            Make sure to include '-n' in your console command"""
+        )
     )
     return False

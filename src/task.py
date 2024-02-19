@@ -31,7 +31,9 @@ class Task:
     completed: bool = False
 
     def __str__(self) -> str:
-        return f"{self.name} ({self.priority if self.completed is not False else 'Completed'})"
+        return (
+            f"{self.name} ({self.priority if self.completed is False else 'Completed'})"
+        )
 
     def complete_task(self):
         self.completed = True
@@ -39,10 +41,9 @@ class Task:
 
     def print_task_details(self) -> bool:
         header = f"=== {self.name}"
-        header += (
-            f"({self.priority if self.completed is not False else 'Completed'}) ==="
-        )
+        header += f"({self.priority if self.completed is False else 'Completed'}) ==="
         print(header)
+        print(f"created by: {self.creator.update_user} ({self.creator.creation_date})")
         print(self.description.center(16))
         print("Assigned To: ")
         if self.assigned_users != []:
@@ -84,25 +85,24 @@ def read_tasks_from_yaml(yaml_data: str):
                 t_consts.task_list.append(get_task_from_yaml(item))
 
 
-def write_task_to_yaml(yaml_file: str, task_object: Task):
-    """_summary_
+def write_task(task_object: Task, stream):
+    stream.write("\n- \n")
+    stream.write(f'  title: "{task_object.name}" \n')
+    stream.write(f'  priority: "{task_object.priority}" \n')
+    stream.write(f'  description: "{task_object.description}" \n')
+    stream.write("  todo: \n")
+    for task in task_object.to_do:
+        stream.write(f'    - "{task}" \n')
+    stream.write(f"  completed: {task_object.completed} \n")
+    stream.write(f'  completed-date: "{task_object.completion_date}" \n')
+    stream.write(f'  creator: "{task_object.creator.update_user}" \n')
+    stream.write(f'  created-date: "{task_object.creator.creation_date}" \n')
 
-    Args:
-        yamlFile (str): _description_
-        taskObject (Task): _description_
-    """
-    with open(yaml_file, "a", encoding="utf8") as stream:
-        stream.write("\n- \n")
-        stream.write(f'  title: "{task_object.name}" \n')
-        stream.write(f'  priority: "{task_object.priority}" \n')
-        stream.write(f'  description: "{task_object.description}" \n')
-        stream.write("  todo: \n")
-        for task in task_object.to_do:
-            stream.write(f'    - "{task}" \n')
-        stream.write(f"  completed: {task_object.completed} \n")
-        stream.write(f'  completed-date: "{task_object.completion_date}" \n')
-        stream.write(f'  creator: "{task_object.creator.update_user.full_name}" \n')
-        stream.write(f'  created-date: "{task_object.creator.creation_date}" \n')
+
+def write_all_tasks_to_yaml(yaml_file: str, task_list):
+    with open(yaml_file, "w", encoding="utf8") as stream:
+        for task in task_list:
+            write_task(task, stream)
 
 
 def create_new_task():
@@ -124,7 +124,7 @@ def create_new_task():
         to_do=todos,
         creator=UpdateInfo(t_consts.CURRENT_USER, datetime.datetime.now()),
     )
-    write_task_to_yaml("data/tasks.yaml", new_task)
     t_consts.task_list.append(new_task)
+    write_all_tasks_to_yaml("data/tasks.yaml", t_consts.task_list)
 
     print("Task Successfully Created")
