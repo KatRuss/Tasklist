@@ -1,7 +1,7 @@
-from src.tasklist.systems.user_system import write_user_to_yaml, read_users_from_yaml
-from src.tasklist.objects.user import User
 from pathlib import Path
 import os
+from src.user import write_user_to_yaml, User
+
 
 Test_User = User(full_name="Katherine Russell", username="KatRus", password="Eillom")
 
@@ -13,6 +13,7 @@ def test_write_user():
     # Create Test YAML File
     write_user_to_yaml(temp_file, Test_User)
     os.remove(temp_file)
+
 
 def test_read_user():
     pass

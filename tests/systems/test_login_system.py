@@ -1,7 +1,7 @@
-from src.tasklist.login.login_system import create_new_user, validate_user
-from src.data.datalists import user_list
-from src.tasklist.objects.user import User
 from unittest.mock import patch
+from src.user import create_new_user, validate_user
+from src.t_consts import user_list
+from src.user import User
 
 user_list.append(
     User(full_name="Katherine Russell", username="KatRuss", password="Eillom")

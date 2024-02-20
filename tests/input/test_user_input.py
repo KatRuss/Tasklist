@@ -1,8 +1,7 @@
-from src.tasklist.u_input.user_input import (
+from src.u_input import (
     typed_input,
     wait,
     print_question_and_response,
-    typed_input,
     binary_choice_input,
     list_choice_input,
     check_regex,

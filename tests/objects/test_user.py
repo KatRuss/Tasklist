@@ -1,4 +1,4 @@
-from src.tasklist.objects.user import User
+from src.user import User
 
 
 def test_user_creation():
