@@ -41,7 +41,6 @@ def print_question_and_response(
 def check_regex(response: str, validation: str = "") -> bool:
     """General Regex checker for typed inputs"""
     for char in response:
-        print(char)
         if re.match(validation, char):
             print(t_format.get_error(f"Response includes illegal character '{char}'"))
             return False

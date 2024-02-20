@@ -55,6 +55,7 @@ class Screen:
 
             # Print screen
             print(t_format.get_title(self.title))
+            print(self.intro_message)
             should_return = self.get_option()
 
 
@@ -101,8 +102,21 @@ class MoveScreenAction(ScreenAction):
         return False
 
 
+@dataclass
 class ViewUserTaskListAction(ScreenAction):
-    pass  # To Be Implemented
+    name = "View Your Tasks"
+    tasklist: list
+
+    def do(self):
+        print("Here are the tasks assigned to you: ")
+        # TODO: Implement list of assigned tasks
+        for x, tsk in enumerate(self.tasklist):
+            has_user = t_consts.CURRENT_USER in tsk.assigned_users
+            if has_user and tsk.completed is False:
+                print(f"{x}. {tsk}")
+
+        u_input.wait()
+        return False
 
 
 @dataclass
@@ -114,7 +128,7 @@ class ViewTaskListAction(ScreenAction):
         if len(self.tasklist) != 0:
             print("Here are all of the tasks that exist: ")
             for x, tsk in enumerate(self.tasklist):
-                print(f"  {x+1}. {tsk.name}")
+                print(f"  {x+1}. {tsk}")
             u_input.wait()
             return False
 
