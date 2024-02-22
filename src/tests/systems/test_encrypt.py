@@ -1,6 +1,6 @@
 """_summary_"""
 
-import src.encrypt as encrypt
+import encrypt as encrypt
 
 
 def test_ceaser_full():

@@ -1,14 +1,9 @@
 """
--- TASKLIST.PY --
 Entrypoint for the program. Takes in user login data and
 passes it to the login system to interpret and log the user in.
-
-Linearly it should go:
-1. Take user login info
-2. Check is info is valid
-3. Take info and pass user onto the main screen of the app
 """
 
+import os
 import argparse
 from pathlib import Path
 
@@ -32,6 +27,9 @@ DATA_PATH = CWD.joinpath("data")
 if args.newUser is False:
     user.read_users_from_yaml(DATA_PATH.joinpath("users.yaml"))
 task.read_tasks_from_yaml(DATA_PATH.joinpath("tasks.yaml"))
+
+# Clear Screen before starting the app
+os.system("cls" if os.name == "nt" else "clear")  # For both windows and linux support
 
 # Login Check
 if args.newUser is True:

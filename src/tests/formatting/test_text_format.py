@@ -1,6 +1,6 @@
 """Tests for text_format.py, """
 
-from src.t_format import get_title, get_error, get_question
+from t_format import get_title, get_error, get_question
 
 
 def test_print_title():

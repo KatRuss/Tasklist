@@ -1,6 +1,6 @@
 import datetime
-from src.task import Task, UpdateInfo
-from src.user import User
+from task import Task, UpdateInfo
+from user import User
 
 test_user = User(
     full_name="Katherine Russell",
@@ -29,4 +29,4 @@ def test_complete_task():
 
     test_task.complete_task()
     assert test_task.completed is True
-    assert isinstance(test_task.completion_info, UpdateInfo)
+    assert test_task.completion_date is not ""

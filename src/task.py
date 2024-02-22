@@ -19,7 +19,7 @@ class UpdateInfo:
 
 @dataclass
 class Task:
-    """_summary_"""
+    """Datackass for"""
 
     name: str = "unamed task"
     priority: str = "?"
@@ -36,10 +36,16 @@ class Task:
         )
 
     def complete_task(self):
+        """Sets the completion state of the task to true and"""
         self.completed = True
         self.completion_date = datetime.datetime.now()
 
     def print_task_details(self) -> bool:
+        """Prints task details in a formatted manner
+
+        Returns:
+            bool: Returns success status of the detail printing, mainly for testing
+        """
         header = f"=== {self.name}"
         header += f"({self.priority if self.completed is False else 'Completed'}) ==="
         print(header)
@@ -63,6 +69,11 @@ class Task:
         return True
 
 
+# ============================
+# === YAML Reading methods ===
+# ============================
+
+
 def get_task_from_yaml(item: dict) -> Task:
     return Task(
         name=item["title"],
@@ -76,19 +87,16 @@ def get_task_from_yaml(item: dict) -> Task:
 
 
 def read_tasks_from_yaml(yaml_data: str):
-    """_summary_
-
-    Args:
-        yamlData (str): _description_
-    """
+    """Takes the yaml_data filepath and reads each task entry into t_consts.task_list"""
     with open(yaml_data, "r", encoding="utf8") as stream:
         data = yaml.safe_load(stream)
         if data is not None:
             for item in data:
-                t_consts.task_list.append(get_task_from_yaml(item))
+                t_consts.TASK_LIST.append(get_task_from_yaml(item))
 
 
 def write_task(task_object: Task, stream):
+    """Takes the stream and writes the task class object onto it in YAML format"""
     stream.write("\n- \n")
     stream.write(f'  title: "{task_object.name}" \n')
     stream.write(f'  priority: "{task_object.priority}" \n')
@@ -127,7 +135,7 @@ def create_new_task():
         to_do=todos,
         creator=UpdateInfo(t_consts.CURRENT_USER, datetime.datetime.now()),
     )
-    t_consts.task_list.append(new_task)
-    write_all_tasks_to_yaml("data/tasks.yaml", t_consts.task_list)
+    t_consts.TASK_LIST.append(new_task)
+    write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
 
     print("Task Successfully Created")

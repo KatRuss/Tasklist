@@ -1,4 +1,4 @@
-from src.user import User
+from user import User
 
 
 def test_user_creation():

@@ -1,9 +1,8 @@
 from unittest.mock import patch
-from src.user import create_new_user, validate_user
-from src.t_consts import user_list
-from src.user import User
+from user import create_new_user, validate_user, User
+from t_consts import USER_LIST
 
-user_list.append(
+USER_LIST.append(
     User(full_name="Katherine Russell", username="KatRuss", password="Eillom")
 )
 
