@@ -28,62 +28,66 @@ class User:
         return self.full_name
 
     def set_name(self, new_name):
-        """_summary_"""
+        """Setter Method for the User's Full Name"""
         self.full_name = new_name
 
     def set_username(self, new_username):
-        """_summary_"""
+        """Setter Method for the User's Username"""
         self.username = new_username
 
     def set_password(self, password):
-        """_summary_"""
+        """Setter Method for the User's password and passkey"""
         self.pass_key: str = encrypt.get_key_string(encrypt.generate_key(len(password)))
         self.password: str = encrypt.caeser_encrypt(
             password, encrypt.get_key_from_string(self.pass_key)
         )
 
     def get_name(self):
-        """_summary_"""
+        """Getter Method for the User's Full Name"""
         return self.full_name
 
     def get_username(self):
-        """_summary_"""
+        """Getter Method for the User's Username"""
         return self.username
 
     def get_password(self):
-        """_summary_"""
+        """Getter Method for the User's decrypted password"""
         return encrypt.caeser_decrypt(
             self.password, encrypt.get_key_from_string(self.pass_key)
         )
 
     def get_pass_key(self):
-        """_Summary_"""
+        """Getter Method for the user's passkey"""
         return self.pass_key
 
 
+# ============================
+# === YAML Reading methods ===
+# ============================
 def read_users_from_yaml(yaml_file: Path):
-    """_summary_
+    """
+    Reads all users in a given YAML file and appends them to t_consts.userlist
 
     Args:
-        yamlFile (str): _description_
+        yamlFile (Path): filepath for the YAML file
     """
 
     with open(yaml_file, "r", encoding="utf8") as stream:
 
         data = yaml.safe_load(stream)
         if data is not None:
-            t_consts.user_list.clear()  # Avoid Duplicate Data
+            t_consts.USER_LIST.clear()  # Avoid Duplicate Data
             for item in data:
                 new_user = User()
                 new_user.full_name = item["name"]
                 new_user.username = item["username"]
                 new_user.password = item["password"]
                 new_user.pass_key = item["key"]
-                t_consts.user_list.append(new_user)
+                t_consts.USER_LIST.append(new_user)
 
 
 def write_user_to_yaml(yaml_file: str, usr: User):
-    """_summary_
+    """Writes the user's data to the given yaml_file path
 
     Args:
         yamlFile (str): _description_
@@ -100,10 +104,8 @@ def write_user_to_yaml(yaml_file: str, usr: User):
 
 
 def create_new_user() -> None:
-    """_summary_
-
-    Args:
-        username (str): _description_
+    """Entry function for creating a new user.
+    Includes the user input for their user details and checking if the user already exists
     """
     if u_input.binary_choice_input("Would you like to create a new profile?") is True:
 
@@ -118,7 +120,7 @@ def create_new_user() -> None:
             "Please write your full name", r"([0-9.\[\]'<>!*@\/\\`,\"\';:#~{}=+_|?/])"
         )
 
-        for user in t_consts.user_list:
+        for user in t_consts.USER_LIST:
             if username == user.username:
                 print(f"Username {username} already exists")
                 return False
@@ -134,7 +136,7 @@ def create_new_user() -> None:
 def validate_user():
     """Checks if user credentials are correct and retuns user data."""
 
-    if len(t_consts.user_list) == 0:
+    if len(t_consts.USER_LIST) == 0:
         print(
             t_format.get_error(
                 """There are no users inside this tasklist instance.
@@ -148,7 +150,7 @@ def validate_user():
     # Get Password
     password = u_input.typed_input("Password:")
 
-    for user in t_consts.user_list:
+    for user in t_consts.USER_LIST:
         if username == user.username:
             # User has been found, check for for password
             print(user.get_password())

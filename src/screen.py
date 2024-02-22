@@ -81,7 +81,7 @@ class QuitAppAction(ScreenAction):
     name = "Quit"
 
     def do(self):
-        task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.task_list)
+        task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
         sys.exit()
 
 
@@ -228,7 +228,7 @@ class CompleteTask(ScreenAction):
             )
             choice.complete_task()
             print(f"{choice} has been set to completed")
-            task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.task_list)
+            task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
             u_input.wait()
             return False
 
@@ -257,10 +257,10 @@ currentTasksScreen = Screen(
     intro_message="Here are your current tasks",
     exit_function=ReturnAction(),
     options_list=[
-        ViewTaskListAction(t_consts.task_list),
-        ViewTaskAction(t_consts.task_list),
-        CompleteTask(t_consts.task_list),
-        AssignTaskToUser(t_consts.user_list, t_consts.task_list),
+        ViewTaskListAction(t_consts.TASK_LIST),
+        ViewTaskAction(t_consts.TASK_LIST),
+        CompleteTask(t_consts.TASK_LIST),
+        AssignTaskToUser(t_consts.USER_LIST, t_consts.TASK_LIST),
         AddTaskAction(),
     ],
 )
@@ -279,6 +279,6 @@ entryScreen = Screen(
     options_list=[
         MoveScreenAction(currentTasksScreen),
         MoveScreenAction(adminScreen),
-        SeeUsers(t_consts.user_list),
+        SeeUsers(t_consts.USER_LIST),
     ],
 )
