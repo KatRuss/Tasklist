@@ -15,7 +15,7 @@ from src import task, u_input, t_consts, t_format
 
 @dataclass
 class Screen:
-    """_summary_"""
+    """Dataclass for a UI screen"""
 
     title: str
     intro_message: str
@@ -26,9 +26,11 @@ class Screen:
         return self.title
 
     def exit_screen(self):
+        """Auto runs the exit function so the user can leave the screen or application"""
         self.exit_function()
 
     def get_option(self):
+        """Asks user what they want to do, then runs the"""
         # get list of options, then case switch depending on what you want to do
         full_list = self.options_list.copy()
         full_list.append(self.exit_function)
@@ -40,9 +42,16 @@ class Screen:
         if choice is not None:
             return choice.do()
 
-        pass  # Error handle
+        # Error handle
+        print(
+            t_format.get_error(
+                "Error, choice was not valid. Select something else please"
+            )
+        )
+        return self.get_option()
 
     def show(self):
+        """Presents the screen to the user"""
         should_return = False
         while not should_return:
             # Clear terminal for readability
@@ -53,6 +62,7 @@ class Screen:
             # Print screen
             print(t_format.get_title(self.title))
             print(self.intro_message)
+            # All screen actions returns a bool, depending on if it should close the screen or not
             should_return = self.get_option()
 
 
@@ -60,13 +70,17 @@ class Screen:
 # == SCREEN ACTIONS ==
 # ====================
 class ScreenAction:
+    """Abstract class object for a ScreenAction.
+    Meant to be"""
+
     name: str = "Unamed Screen Action"
 
     def __str__(self) -> str:
         return self.name
 
     def do(self):
-        """Abstract function for initiating a ScreenAction
+        """Abstract function for initiating a ScreenAction.
+        Needs to be implemented on all inhereted classes
 
         Returns False if action is not expected to close the screen.
         Returns True if screen should close after action.
@@ -75,6 +89,8 @@ class ScreenAction:
 
 
 class QuitAppAction(ScreenAction):
+    """Action to quit the application"""
+
     name = "Quit"
 
     def do(self):
@@ -83,6 +99,8 @@ class QuitAppAction(ScreenAction):
 
 
 class ReturnAction(ScreenAction):
+    """Action to close the screen and return to the previous action"""
+
     name = "Return"
 
     def do(self):
@@ -234,16 +252,39 @@ class CompleteTask(ScreenAction):
         return False
 
 
-class admin_clear_tasklist(ScreenAction):
+class AdminClearTasklist(ScreenAction):
     name = "ADMIN Clear Tasklist"
 
-    pass  # to be implemented
+    def do(self):
+        print(
+            "WARNING: THIS WILL CLEAR ALL TASKS ON THIS TASKLIST. THIS ACTION IS NOT REVERSABLE"
+        )
+        if u_input.binary_choice_input("Are you sure you want to continue?"):
+            # delete everything
+            t_consts.TASK_LIST.clear()
+            print("All tasks have now been deleted!")
+            task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
+            u_input.wait()
+
+        return False
 
 
-class admin_clear_userlist(ScreenAction):
+class AdminClearUserlist(ScreenAction):
     name = "ADMIN Clear Userlist"
 
-    pass  # to be implemented
+    def do(self):
+        print(
+            "WARNING: THIS WILL CLEAR ALL USERS ON THIS TASKLIST. THIS ACTION IS NOT REVERSABLE"
+        )
+        if u_input.binary_choice_input("Are you sure you want to continue?"):
+            # delete everything
+            t_consts.USER_LIST.clear()
+            # Add current user back into the list
+            t_consts.USER_LIST.append(t_consts.CURRENT_USER)
+            print("All users have now been deleted!")
+            u_input.wait()
+
+        return False
 
 
 # =============
@@ -266,7 +307,7 @@ adminScreen = Screen(
     title="Admin Screen",
     intro_message="Welcome to Admin Area",
     exit_function=ReturnAction(),
-    options_list=[admin_clear_userlist(), admin_clear_tasklist()],
+    options_list=[AdminClearUserlist(), AdminClearTasklist()],
 )
 
 entryScreen = Screen(

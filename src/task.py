@@ -11,13 +11,15 @@ from src import user, u_input, t_consts
 
 @dataclass
 class UpdateInfo:
+    """Dataclass for update information. Containing who initiated the update and when"""
+
     update_user: user.User = None
     creation_date: str = ""
 
 
 @dataclass
 class Task:
-    """Datackass for"""
+    """Datackass for indivdual tasks"""
 
     name: str = "unamed task"
     priority: str = "?"
@@ -73,6 +75,7 @@ class Task:
 
 
 def get_task_from_yaml(item: dict) -> Task:
+    """Takes a dictionary of YAML task data and returns it as a Task object"""
     return Task(
         name=item["title"],
         priority=item["priority"],
@@ -109,13 +112,14 @@ def write_task(task_object: Task, stream):
 
 
 def write_all_tasks_to_yaml(yaml_file: str, task_list):
+    """writes all tasks in an array into a yaml_file"""
     with open(yaml_file, "w", encoding="utf8") as stream:
         for task in task_list:
             write_task(task, stream)
 
 
 def create_new_task():
-    """_summary_"""
+    """Asks the user to input details for a new task and gets it written to YAML"""
     task_title = u_input.typed_input("Name of New Task")
     task_description = u_input.typed_input("Task Description:")
     task_priority = u_input.list_choice_input("Task Priority", ["A", "B", "C", "D"])
