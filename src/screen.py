@@ -108,6 +108,8 @@ class ReturnAction(ScreenAction):
 
 
 class MoveScreenAction(ScreenAction):
+    """Action to move to a diferent screen"""
+
     def __init__(self, target) -> None:
         self.name = f"Move to {target}"
         self.target = target
@@ -119,12 +121,13 @@ class MoveScreenAction(ScreenAction):
 
 @dataclass
 class ViewUserTaskListAction(ScreenAction):
+    """Action to view all of the tasks assigned to a user"""
+
     name = "View Your Tasks"
     tasklist: list
 
     def do(self):
         print("Here are the tasks assigned to you: ")
-        # TODO: Implement list of assigned tasks
         for x, tsk in enumerate(self.tasklist):
             has_user = t_consts.CURRENT_USER in tsk.assigned_users
             if has_user and tsk.completed is False:
@@ -136,6 +139,8 @@ class ViewUserTaskListAction(ScreenAction):
 
 @dataclass
 class ViewTaskListAction(ScreenAction):
+    """Action to view all tasks that exist in the tasklist"""
+
     name = "View All Tasks"
     tasklist: list
 
@@ -154,6 +159,8 @@ class ViewTaskListAction(ScreenAction):
 
 @dataclass
 class ViewTaskAction(ScreenAction):
+    """Action to view a specific task's full details"""
+
     name = "View Specific Task"
     tasklist: list
 
@@ -172,6 +179,8 @@ class ViewTaskAction(ScreenAction):
 
 
 class AddTaskAction(ScreenAction):
+    """Action to create a new task"""
+
     name = "Add Task"
 
     def do(self):
@@ -181,6 +190,8 @@ class AddTaskAction(ScreenAction):
 
 @dataclass
 class AssignTaskToUser(ScreenAction):
+    """Action to assign a task to a user"""
+
     name = "Assign Task to User"
     user_list: list
     task_list: list
@@ -209,11 +220,15 @@ class AssignTaskToUser(ScreenAction):
 
 
 class RemoveAssignedUser(ScreenAction):
+    """Action to remove a user from a task"""
+
     name = "Remove User From Task"
 
 
 @dataclass
 class SeeUsers(ScreenAction):
+    """Action to see all users on a tasklist"""
+
     name = "See All Users"
     user_list: list
 
@@ -232,6 +247,8 @@ class SeeUsers(ScreenAction):
 
 @dataclass
 class CompleteTask(ScreenAction):
+    """Action to set a task as complete"""
+
     name = "Complete Task"
 
     tasklist: list
@@ -253,6 +270,8 @@ class CompleteTask(ScreenAction):
 
 
 class AdminClearTasklist(ScreenAction):
+    """Action to clear all tasks in tasklist"""
+
     name = "ADMIN Clear Tasklist"
 
     def do(self):
@@ -270,6 +289,8 @@ class AdminClearTasklist(ScreenAction):
 
 
 class AdminClearUserlist(ScreenAction):
+    """Action to clear all users except the current user from the tasklist"""
+
     name = "ADMIN Clear Userlist"
 
     def do(self):
