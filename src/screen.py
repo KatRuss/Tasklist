@@ -266,7 +266,11 @@ class AdminClearTasklist(ScreenAction):
             task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
             u_input.wait()
 
+<<<<<<< HEAD
         return False
+=======
+        return False  # user said no
+>>>>>>> 888d16ed707005dd440b25ba6b8a08cfcfd13b77
 
 
 class AdminClearUserlist(ScreenAction):
@@ -284,7 +288,11 @@ class AdminClearUserlist(ScreenAction):
             print("All users have now been deleted!")
             u_input.wait()
 
+<<<<<<< HEAD
         return False
+=======
+        return False  # user said no
+>>>>>>> 888d16ed707005dd440b25ba6b8a08cfcfd13b77
 
 
 # =============
