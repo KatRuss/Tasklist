@@ -1,4 +1,4 @@
-"""Tests for text_format.py, """
+"""Text Formatting Unit Tests"""
 
 from src.t_format import get_title, get_error, get_question
 

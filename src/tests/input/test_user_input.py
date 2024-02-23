@@ -1,3 +1,5 @@
+"""User Input Unit Testing"""
+
 from src.u_input import (
     typed_input,
     wait,

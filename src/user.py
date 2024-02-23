@@ -1,4 +1,6 @@
-"""Module containing the class object for Users"""
+"""Module containing the class object for Users,
+methods for reading and writing user data to YAML,
+and validating user login"""
 
 from __future__ import annotations
 from pathlib import Path

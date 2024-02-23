@@ -1,3 +1,5 @@
+"""User system unit testing"""
+
 from pathlib import Path
 import os
 from src.user import write_user_to_yaml, User
