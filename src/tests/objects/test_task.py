@@ -1,6 +1,6 @@
 import datetime
-from task import Task, UpdateInfo
-from user import User
+from src.task import Task, UpdateInfo
+from src.user import User
 
 test_user = User(
     full_name="Katherine Russell",

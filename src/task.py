@@ -6,9 +6,7 @@ from dataclasses import dataclass, field
 
 import yaml
 
-import user
-import u_input
-import t_consts
+from src import user, u_input, t_consts
 
 
 @dataclass

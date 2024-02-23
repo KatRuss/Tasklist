@@ -10,10 +10,7 @@ from typing import List
 import sys
 import os
 
-import task
-import u_input
-import t_format
-import t_consts
+from src import task, u_input, t_consts, t_format
 
 
 @dataclass

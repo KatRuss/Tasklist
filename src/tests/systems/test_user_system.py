@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-from user import write_user_to_yaml, User
+from src.user import write_user_to_yaml, User
 
 
 Test_User = User(full_name="Katherine Russell", username="KatRus", password="Eillom")

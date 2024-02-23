@@ -6,10 +6,7 @@ import sys
 
 import yaml
 
-import encrypt
-import t_consts
-import u_input
-import t_format
+from src import encrypt, t_consts, u_input, t_format
 
 
 class User:
@@ -103,7 +100,7 @@ def write_user_to_yaml(yaml_file: str, usr: User):
         stream.write(f'  key: "{usr.pass_key}" \n')
 
 
-def create_new_user() -> None:
+def create_new_user(filepath: Path = None) -> None:
     """Entry function for creating a new user.
     Includes the user input for their user details and checking if the user already exists
     """
@@ -126,8 +123,9 @@ def create_new_user() -> None:
                 return False
 
         new_user = User(full_name=name, username=username, password=password)
-        write_user_to_yaml("data/users.yaml", new_user)
-        print(f"User {username} has been created. Welcome to Tasklists!")
+        if filepath is not None:
+            write_user_to_yaml(filepath, new_user)
+            print(f"User {username} has been created. Welcome to Tasklists!")
         return new_user
 
     return sys.exit()  # New user not created

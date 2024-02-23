@@ -1,13 +1,13 @@
 from pathlib import Path
 import os
 import yaml
-from task import (
+from src.task import (
     get_task_from_yaml,
     Task,
     write_all_tasks_to_yaml,
     UpdateInfo,
 )
-from user import User
+from src.user import User
 
 test_task = Task(
     name="Do things",

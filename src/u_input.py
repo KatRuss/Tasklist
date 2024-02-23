@@ -2,7 +2,8 @@
 
 from enum import Enum
 import re
-import t_format
+
+from src import t_format
 
 
 class DefaultInputs(Enum):
