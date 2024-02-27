@@ -4,12 +4,13 @@ passes it to the login system to interpret and log the user in.
 """
 
 import os
+
 import argparse
-from pathlib import Path
 
 import screen
 import task
 import user
+from t_consts import PATH_CONSTS
 
 parser = argparse.ArgumentParser(
     prog="tasklist",
@@ -20,13 +21,11 @@ args = parser.parse_args()
 
 # Setup
 # Get working directory and data paths
-CWD = Path.cwd()
-DATA_PATH = CWD.joinpath("data")
 
 # Load Tasks and Users
 if args.newUser is False:
-    user.read_users_from_yaml(DATA_PATH.joinpath("users.yaml"))
-task.read_tasks_from_yaml(DATA_PATH.joinpath("tasks.yaml"))
+    user.read_users_from_yaml(PATH_CONSTS["USER_LIST"])
+task.read_tasks_from_yaml(PATH_CONSTS["TASK_LIST"])
 
 # Clear Screen before starting the app
 os.system("cls" if os.name == "nt" else "clear")  # For both windows and linux support
