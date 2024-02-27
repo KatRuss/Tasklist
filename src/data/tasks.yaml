@@ -9,3 +9,14 @@
   completed-date: "2024-02-19 15:12:24.252528" 
   creator: "Katherine Russell" 
   created-date: "2024-02-19 15:12:10.230334" 
+
+- 
+  title: "segseg" 
+  priority: "A" 
+  description: "lkjlkj" 
+  todo: 
+    - "sdfsdf" 
+  completed: False 
+  completed-date: "None" 
+  creator: "Katherine Russell" 
+  created-date: "2024-02-19 15:12:10.230334" 

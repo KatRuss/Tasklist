@@ -132,7 +132,7 @@ class ViewUserTaskListAction(ScreenAction):
         print("Here are the tasks assigned to you: ")
         for x, tsk in enumerate(self.tasklist):
             has_user = t_consts.CURRENT_USER in tsk.assigned_users
-            if has_user and tsk.completed is False:
+            if has_user and (tsk.completed is False):
                 print(f"{x}. {tsk}")
 
         u_input.wait()
@@ -262,7 +262,9 @@ class CompleteTask(ScreenAction):
             )
             choice.complete_task()
             print(f"{choice} has been set to completed")
-            task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
+            task.write_all_tasks_to_yaml(
+                t_consts.PATH_CONSTS["TASK_LIST"], t_consts.TASK_LIST
+            )
             u_input.wait()
             return False
 

@@ -11,31 +11,17 @@ stringset = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
 
 
 def generate_key(string_length: int) -> list:
-    """_summary_
-
-    Args:
-        string_length (int): _description_
-
-    Returns:
-        list: _description_
-    """
+    """Generated a key list of a given length"""
     key = []
 
     for _ in range(string_length):
-        key.append(math.floor(random.randint(1, len(stringset) - 1)))
+        key.append(math.floor(random.randrange(1, len(stringset))))
 
     return key
 
 
 def get_key_string(key: list) -> str:
-    """_summary_
-
-    Args:
-        key (list): _description_
-
-    Returns:
-        str: _description_
-    """
+    """Gets the key as a string"""
     key_string = ""
 
     for _, item in enumerate(key):
@@ -45,14 +31,7 @@ def get_key_string(key: list) -> str:
 
 
 def get_key_from_string(string: str) -> list:
-    """_summary_
-
-    Args:
-        string (str): _description_
-
-    Returns:
-        list: _description_
-    """
+    """Creates a keylist from a string"""
     new_list = []
     for char in string:
         new_list.append(stringset.index(char))
@@ -60,15 +39,7 @@ def get_key_from_string(string: str) -> list:
 
 
 def caeser_encrypt(text: str, key: list):
-    """_summary_
-
-    Args:
-        text (str): _description_
-        key (list): _description_
-
-    Returns:
-        _type_: _description_
-    """
+    """Encrypts text using a ceaser cypher"""
     new_text = ""
     split = list(text)
 
@@ -85,15 +56,7 @@ def caeser_encrypt(text: str, key: list):
 
 
 def caeser_decrypt(text: str, key: list):
-    """_summary_
-
-    Args:
-        text (str): _description_
-        key (list): _description_
-
-    Returns:
-        _type_: _description_
-    """
+    """"""
     new_text = ""
     split = list(text)
 

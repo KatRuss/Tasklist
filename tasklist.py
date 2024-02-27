@@ -8,7 +8,7 @@ import os
 import argparse
 
 
-from t_consts import PATH_CONSTS
+from src.t_consts import PATH_CONSTS
 from src import screen, task, user
 
 parser = argparse.ArgumentParser(
