@@ -7,10 +7,9 @@ import os
 
 import argparse
 
-import screen
-import task
-import user
+
 from t_consts import PATH_CONSTS
+from src import screen, task, user
 
 parser = argparse.ArgumentParser(
     prog="tasklist",

@@ -1,16 +1,21 @@
+"""Login System Unit Testing"""
+
+import os
 from unittest.mock import patch
-from user import create_new_user, validate_user, User
-from t_consts import USER_LIST
+from src.user import create_new_user, validate_user, User
+from src.t_consts import USER_LIST
 
 USER_LIST.append(
     User(full_name="Katherine Russell", username="KatRuss", password="Eillom")
 )
 
+FILENAME = "tempfile.yaml"
+
 
 @patch("builtins.input")
 def test_create_user_accepted(m_input):
     m_input.side_effect = ["y", "Jimbo", "aasL:EIFjk", "Jimmy Bobert"]
-    result = create_new_user()
+    result = create_new_user(filepath=FILENAME)
     assert result is not False
     assert isinstance(result, User)
 
@@ -18,8 +23,9 @@ def test_create_user_accepted(m_input):
 @patch("builtins.input")
 def test_create_user_bounced(m_input):
     m_input.side_effect = ["y", "KatRuss", "Eillom", "Katherine Russell"]
-    result = create_new_user()
+    result = create_new_user(filepath=FILENAME)
     assert result is False
+    os.remove(FILENAME)  # Remove file as no longer needed for testing
 
 
 @patch("builtins.input")

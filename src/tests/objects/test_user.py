@@ -1,4 +1,6 @@
-from user import User
+"""User Object Unit Testing"""
+
+from src.user import User
 
 
 def test_user_creation():

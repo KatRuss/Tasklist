@@ -1,5 +1,4 @@
 """
--- ENCRYPT.py --
 Password encripytion for the purposes of of the pass_check system.
 For the purposes of this assignemnt this will be in the form of a
 caeser cypher to get the point across of these passwords being encrpyted when being saved.

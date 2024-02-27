@@ -10,15 +10,12 @@ from typing import List
 import sys
 import os
 
-import task
-import u_input
-import t_format
-import t_consts
+from src import task, u_input, t_consts, t_format
 
 
 @dataclass
 class Screen:
-    """_summary_"""
+    """Dataclass for a UI screen"""
 
     title: str
     intro_message: str
@@ -29,9 +26,11 @@ class Screen:
         return self.title
 
     def exit_screen(self):
+        """Auto runs the exit function so the user can leave the screen or application"""
         self.exit_function()
 
     def get_option(self):
+        """Asks user what they want to do, then runs the"""
         # get list of options, then case switch depending on what you want to do
         full_list = self.options_list.copy()
         full_list.append(self.exit_function)
@@ -43,9 +42,16 @@ class Screen:
         if choice is not None:
             return choice.do()
 
-        pass  # Error handle
+        # Error handle
+        print(
+            t_format.get_error(
+                "Error, choice was not valid. Select something else please"
+            )
+        )
+        return self.get_option()
 
     def show(self):
+        """Presents the screen to the user"""
         should_return = False
         while not should_return:
             # Clear terminal for readability
@@ -56,6 +62,7 @@ class Screen:
             # Print screen
             print(t_format.get_title(self.title))
             print(self.intro_message)
+            # All screen actions returns a bool, depending on if it should close the screen or not
             should_return = self.get_option()
 
 
@@ -63,13 +70,17 @@ class Screen:
 # == SCREEN ACTIONS ==
 # ====================
 class ScreenAction:
+    """Abstract class object for a ScreenAction.
+    Meant to be"""
+
     name: str = "Unamed Screen Action"
 
     def __str__(self) -> str:
         return self.name
 
     def do(self):
-        """Abstract function for initiating a ScreenAction
+        """Abstract function for initiating a ScreenAction.
+        Needs to be implemented on all inhereted classes
 
         Returns False if action is not expected to close the screen.
         Returns True if screen should close after action.
@@ -78,6 +89,8 @@ class ScreenAction:
 
 
 class QuitAppAction(ScreenAction):
+    """Action to quit the application"""
+
     name = "Quit"
 
     def do(self):
@@ -88,6 +101,8 @@ class QuitAppAction(ScreenAction):
 
 
 class ReturnAction(ScreenAction):
+    """Action to close the screen and return to the previous action"""
+
     name = "Return"
 
     def do(self):
@@ -95,6 +110,8 @@ class ReturnAction(ScreenAction):
 
 
 class MoveScreenAction(ScreenAction):
+    """Action to move to a diferent screen"""
+
     def __init__(self, target) -> None:
         self.name = f"Move to {target}"
         self.target = target
@@ -106,12 +123,13 @@ class MoveScreenAction(ScreenAction):
 
 @dataclass
 class ViewUserTaskListAction(ScreenAction):
+    """Action to view all of the tasks assigned to a user"""
+
     name = "View Your Tasks"
     tasklist: list
 
     def do(self):
         print("Here are the tasks assigned to you: ")
-        # TODO: Implement list of assigned tasks
         for x, tsk in enumerate(self.tasklist):
             has_user = t_consts.CURRENT_USER in tsk.assigned_users
             if has_user and tsk.completed is False:
@@ -123,6 +141,8 @@ class ViewUserTaskListAction(ScreenAction):
 
 @dataclass
 class ViewTaskListAction(ScreenAction):
+    """Action to view all tasks that exist in the tasklist"""
+
     name = "View All Tasks"
     tasklist: list
 
@@ -141,6 +161,8 @@ class ViewTaskListAction(ScreenAction):
 
 @dataclass
 class ViewTaskAction(ScreenAction):
+    """Action to view a specific task's full details"""
+
     name = "View Specific Task"
     tasklist: list
 
@@ -159,6 +181,8 @@ class ViewTaskAction(ScreenAction):
 
 
 class AddTaskAction(ScreenAction):
+    """Action to create a new task"""
+
     name = "Add Task"
 
     def do(self):
@@ -168,6 +192,8 @@ class AddTaskAction(ScreenAction):
 
 @dataclass
 class AssignTaskToUser(ScreenAction):
+    """Action to assign a task to a user"""
+
     name = "Assign Task to User"
     user_list: list
     task_list: list
@@ -196,11 +222,15 @@ class AssignTaskToUser(ScreenAction):
 
 
 class RemoveAssignedUser(ScreenAction):
+    """Action to remove a user from a task"""
+
     name = "Remove User From Task"
 
 
 @dataclass
 class SeeUsers(ScreenAction):
+    """Action to see all users on a tasklist"""
+
     name = "See All Users"
     user_list: list
 
@@ -219,6 +249,8 @@ class SeeUsers(ScreenAction):
 
 @dataclass
 class CompleteTask(ScreenAction):
+    """Action to set a task as complete"""
+
     name = "Complete Task"
 
     tasklist: list
@@ -239,21 +271,50 @@ class CompleteTask(ScreenAction):
         return False
 
 
-class admin_clear_tasklist(ScreenAction):
+class AdminClearTasklist(ScreenAction):
+    """Action to clear all tasks in tasklist"""
+
     name = "ADMIN Clear Tasklist"
 
-    pass  # to be implemented
+    def do(self):
+        print(
+            "WARNING: THIS WILL CLEAR ALL TASKS ON THIS TASKLIST. THIS ACTION IS NOT REVERSABLE"
+        )
+        if u_input.binary_choice_input("Are you sure you want to continue?"):
+            # delete everything
+            t_consts.TASK_LIST.clear()
+            print("All tasks have now been deleted!")
+            task.write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
+            u_input.wait()
+
+        return False
 
 
-class admin_clear_userlist(ScreenAction):
+class AdminClearUserlist(ScreenAction):
+    """Action to clear all users except the current user from the tasklist"""
+
     name = "ADMIN Clear Userlist"
 
-    pass  # to be implemented
+    def do(self):
+        print(
+            "WARNING: THIS WILL CLEAR ALL USERS ON THIS TASKLIST. THIS ACTION IS NOT REVERSABLE"
+        )
+        if u_input.binary_choice_input("Are you sure you want to continue?"):
+            # delete everything
+            t_consts.USER_LIST.clear()
+            # Add current user back into the list
+            t_consts.USER_LIST.append(t_consts.CURRENT_USER)
+            print("All users have now been deleted!")
+            u_input.wait()
+
+        return False
 
 
 # =============
 # == SCREENS ==
 # =============
+
+# - Screen for adding and assigning tasks
 currentTasksScreen = Screen(
     title="Current Tasks",
     intro_message="Here are your current tasks",
@@ -267,13 +328,15 @@ currentTasksScreen = Screen(
     ],
 )
 
+# - Admin functionality screen
 adminScreen = Screen(
     title="Admin Screen",
     intro_message="Welcome to Admin Area",
     exit_function=ReturnAction(),
-    options_list=[admin_clear_userlist(), admin_clear_tasklist()],
+    options_list=[AdminClearUserlist(), AdminClearTasklist()],
 )
 
+# - Entry screen for the program
 entryScreen = Screen(
     title="Main Screen",
     intro_message="Welcome to Tasklist",
