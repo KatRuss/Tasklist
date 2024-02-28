@@ -62,9 +62,9 @@ def test_view_task(monkeypatch):
 @patch("builtins.input")
 def test_add_task(m_input):
     s = screen.AddTaskAction()
-    m_input.side_effect = ["test_task", "A", "TestTo-Do", "n"]
+    m_input.side_effect = ["test_task", "Test Task", "1", "TestTo-Do", "n"]
 
-    assert s.do() is False
+    assert s.do(write_to_file=False) is False
 
 
 def test_complete_task(monkeypatch):
@@ -73,5 +73,14 @@ def test_complete_task(monkeypatch):
 
     monkeypatch.setattr("builtins.input", lambda _: "1")
 
-    assert s.do() is False
+    assert s.do(write_to_file=False) is False
     assert tsklist[0].completed is True
+
+
+def test_see_users(monkeypatch):
+    users = [user.User()]
+    s = screen.SeeUsers(user_list=users)
+
+    monkeypatch.setattr("builtins.input", lambda _: " ")
+
+    assert s.do() is False

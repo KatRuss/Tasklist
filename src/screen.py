@@ -185,8 +185,8 @@ class AddTaskAction(ScreenAction):
 
     name = "Add Task"
 
-    def do(self):
-        task.create_new_task()
+    def do(self, write_to_file=True):
+        task.create_new_task(write_to_file)
         return False
 
 
@@ -255,16 +255,17 @@ class CompleteTask(ScreenAction):
 
     tasklist: list
 
-    def do(self):
+    def do(self, write_to_file=True):
         if len(self.tasklist) != 0:
             choice = u_input.list_choice_input(
                 "Which task would you like to complete?", self.tasklist
             )
             choice.complete_task()
             print(f"{choice} has been set to completed")
-            task.write_all_tasks_to_yaml(
-                t_consts.PATH_CONSTS["TASK_LIST"], t_consts.TASK_LIST
-            )
+            if write_to_file:
+                task.write_all_tasks_to_yaml(
+                    t_consts.PATH_CONSTS["TASK_LIST"], t_consts.TASK_LIST
+                )
             u_input.wait()
             return False
 

@@ -118,7 +118,7 @@ def write_all_tasks_to_yaml(yaml_file: str, task_list):
             write_task(task, stream)
 
 
-def create_new_task():
+def create_new_task(write_to_file=True):
     """Asks the user to input details for a new task and gets it written to YAML"""
     task_title = u_input.typed_input("Name of New Task")
     task_description = u_input.typed_input("Task Description:")
@@ -138,6 +138,7 @@ def create_new_task():
         creator=UpdateInfo(t_consts.CURRENT_USER, datetime.datetime.now()),
     )
     t_consts.TASK_LIST.append(new_task)
-    write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
+    if write_to_file:
+        write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
 
     print("Task Successfully Created")
