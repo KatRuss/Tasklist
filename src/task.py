@@ -139,6 +139,6 @@ def create_new_task(write_to_file=True):
     )
     t_consts.TASK_LIST.append(new_task)
     if write_to_file:
-        write_all_tasks_to_yaml("data/tasks.yaml", t_consts.TASK_LIST)
+        write_all_tasks_to_yaml(t_consts.PATH_CONSTS["TASK_LIST"], t_consts.TASK_LIST)
 
     print("Task Successfully Created")

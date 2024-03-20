@@ -3,3 +3,6 @@ This is Tasklist, a console based task management system inspired by tools such 
 
 ## How to run?
 simply run 'run.bat' in the terminal and it should begin installing the relavent python modules and run the script
+
+username: Admin
+password: Admdin

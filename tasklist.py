@@ -31,7 +31,7 @@ os.system("cls" if os.name == "nt" else "clear")  # For both windows and linux s
 
 # Login Check
 if args.newUser is True:
-    user.create_new_user()
+    user.create_new_user(filepath=PATH_CONSTS["USER_LIST"])
     screen.entryScreen.show()
 else:
     if user.validate_user() is not False:

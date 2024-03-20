@@ -17,8 +17,8 @@ class User:
     def __init__(self, full_name="", username="", password="") -> None:
         self.full_name: str = full_name
         self.username: str = username
-        self.password: str = password
-        self.pass_key: str = ""
+        self.password: bytes = password
+        self.pass_key: bytes = ""
 
         if password != "":
             self.set_password(password)
@@ -36,10 +36,8 @@ class User:
 
     def set_password(self, password):
         """Setter Method for the User's password and passkey"""
-        self.pass_key: str = encrypt.get_key_string(encrypt.generate_key(len(password)))
-        self.password: str = encrypt.caeser_encrypt(
-            password, encrypt.get_key_from_string(self.pass_key)
-        )
+        self.pass_key: str = encrypt.generate_key()
+        self.password: str = encrypt.encrypt(password, self.pass_key)
 
     def get_name(self):
         """Getter Method for the User's Full Name"""
@@ -51,9 +49,7 @@ class User:
 
     def get_password(self):
         """Getter Method for the User's decrypted password"""
-        return encrypt.caeser_decrypt(
-            self.password, encrypt.get_key_from_string(self.pass_key)
-        )
+        return encrypt.decrypt(self.password, self.pass_key)
 
     def get_pass_key(self):
         """Getter Method for the user's passkey"""
