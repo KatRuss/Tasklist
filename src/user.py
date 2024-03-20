@@ -17,7 +17,7 @@ class User:
     def __init__(self, full_name="", username="", password="") -> None:
         self.full_name: str = full_name
         self.username: str = username
-        self.password: bytes = password
+        self.password: bytes = password.encode()
         self.pass_key: bytes = ""
 
         if password != "":
@@ -36,8 +36,8 @@ class User:
 
     def set_password(self, password):
         """Setter Method for the User's password and passkey"""
-        self.pass_key: str = encrypt.generate_key()
-        self.password: str = encrypt.encrypt(password, self.pass_key)
+        self.pass_key: bytes = encrypt.generate_key()
+        self.password: bytes = encrypt.encrypt(password, self.pass_key)
 
     def get_name(self):
         """Getter Method for the User's Full Name"""
@@ -67,7 +67,7 @@ def read_users_from_yaml(yaml_file: Path):
         yamlFile (Path): filepath for the YAML file
     """
 
-    with open(yaml_file, "r", encoding="utf8") as stream:
+    with open(yaml_file, "rb") as stream:
 
         data = yaml.safe_load(stream)
         if data is not None:
@@ -94,8 +94,8 @@ def write_user_to_yaml(yaml_file: str, usr: User):
         stream.write("\n- \n")
         stream.write(f'  name: "{usr.get_name()}" \n')
         stream.write(f'  username: "{usr.get_username()}" \n')
-        stream.write(f'  password: "{usr.password}" \n')
-        stream.write(f'  key: "{usr.pass_key}" \n')
+        stream.write(f'  password: "{usr.password.decode()}" \n')
+        stream.write(f'  key: "{usr.pass_key.decode()}" \n')
 
 
 def create_new_user(filepath: Path = None) -> None:

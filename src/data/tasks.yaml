@@ -1,0 +1,109 @@
+
+- 
+  title: "Make an App" 
+  priority: "A" 
+  description: "We need to make a cool phone app" 
+  todo: 
+    - "App Plan" 
+    - "Assign Project Group" 
+    - "Begin Development" 
+    - "Testing" 
+    - "Release" 
+  completed: False 
+  completed-date: "" 
+  creator: "Mx Admin" 
+  created-date: "2024-03-20 11:07:37.574068" 
+
+- 
+  title: "Buisness Meeting" 
+  priority: "C" 
+  description: "Set up the next buisness meeting" 
+  todo: 
+    - "Decide Date" 
+    - "Send Invites" 
+    - "Test Equipment" 
+  completed: True 
+  completed-date: "2024-03-20 11:20:43.206431" 
+  creator: "Mx Admin" 
+  created-date: "2024-03-20 11:08:53.650618" 
+
+- 
+  title: "Bugfix staging issue" 
+  priority: "D" 
+  description: "There's an issue here where the service won't stage" 
+  todo: 
+    - "Fix it!" 
+  completed: True 
+  completed-date: "2024-03-20 11:18:50.036315" 
+  creator: "Mx Admin" 
+  created-date: "2024-03-20 11:16:22.731968" 
+
+- 
+  title: "Bugfix Rendering issue" 
+  priority: "C" 
+  description: "there's an issue where the rendering gets overlapped" 
+  todo: 
+    - "fix it! " 
+  completed: False 
+  completed-date: "" 
+  creator: "Mx Admin" 
+  created-date: "2024-03-20 11:18:38.726693" 
+
+- 
+  title: "Bugfix graphics issue" 
+  priority: "A" 
+  description: "there's an issue with the graphics buffer" 
+  todo: 
+    - "find out what's wrong" 
+    - "fix it!" 
+  completed: False 
+  completed-date: "" 
+  creator: "Mx Admin" 
+  created-date: "2024-03-20 11:22:23.581698" 
+
+- 
+  title: "Learn how to write apps" 
+  priority: "A" 
+  description: "Kind of important" 
+  todo: 
+    - "learn a programming language" 
+  completed: True 
+  completed-date: "2024-03-20 11:24:17.364989" 
+  creator: "Mx Admin" 
+  created-date: "2024-03-20 11:24:12.415153" 
+
+- 
+  title: "Get a new Laptop" 
+  priority: "C" 
+  description: "We need it cause the old one is too slow! " 
+  todo: 
+    - "Get grant from percurement" 
+    - "order the laptop" 
+  completed: False 
+  completed-date: "" 
+  creator: "Mx User" 
+  created-date: "2024-03-20 11:25:42.707472" 
+
+- 
+  title: "Update the update service" 
+  priority: "A" 
+  description: "It's getting old and starting to break down" 
+  todo: 
+    - "research new ways to change the update service" 
+    - "create a new project for it" 
+  completed: False 
+  completed-date: "" 
+  creator: "Mx User" 
+  created-date: "2024-03-20 11:30:05.128060" 
+
+- 
+  title: "Plan out the work party" 
+  priority: "D" 
+  description: "we need to have fun sometimes" 
+  todo: 
+    - "Send out the invites" 
+    - "get all the balloons" 
+  completed: False 
+  completed-date: "" 
+  creator: "Mx User" 
+  created-date: "2024-03-20 11:35:55.342795" 
